@@ -53,4 +53,4 @@ cmake --build build
 
 ## Stadiul implementării
 
-`main.cpp` păstrează codul original al autorului. Proiectul este în dezvoltare; tratarea intrărilor invalide și numerotarea la ștergere necesită verificări suplimentare.
+`main.cpp` păstrează codul original al autorului. Proiectul este înca in dezvoltare.
