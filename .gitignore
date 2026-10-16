@@ -1,0 +1,4 @@
+/flashcards
+/build/
+*.o
+.env
