@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.16)
+project(Flashcards LANGUAGES CXX)
+add_executable(flashcards main.cpp)
+target_compile_features(flashcards PRIVATE cxx_std_20)
+set_target_properties(flashcards PROPERTIES CXX_EXTENSIONS OFF)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(flashcards PRIVATE -Wall -Wextra -Wpedantic)
+endif()
