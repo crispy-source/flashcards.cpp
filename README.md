@@ -7,19 +7,19 @@ Proiect individual în dezvoltare: o aplicație de consolă pentru crearea și r
 - Adăugarea întrebărilor și răspunsurilor, inclusiv a textelor cu spații.
 - Listarea cardurilor și selectarea aleatorie a unei întrebări.
 - Afișarea răspunsului după confirmarea utilizatorului.
-- Ștergerea cardurilor și validarea opțiunilor numerice din meniu.
+- Ștergerea cardurilor din colecție.
 
 Cardurile sunt păstrate doar în memorie și se pierd la închiderea programului. Nu există încă evaluare automată a răspunsurilor sau algoritm de repetiție spațiată.
 
 ## Tehnologii și concepte
 
-C++, biblioteca standard, o clasă `Flashcard`, `std::vector`, `std::map` și `std::function` pentru asocierea comenzilor cu funcții. Varianta de față folosește `std::mt19937` și `std::uniform_int_distribution` pentru selecția aleatorie.
+C++, biblioteca standard, o clasă `Flashcard`, `std::vector`, `std::map` și `std::function` pentru asocierea comenzilor cu funcții. Selecția aleatorie folosește `rand()` și `srand()`.
 
 Proiectul este configurat pentru compilare în modul C++20.
 
 ## Rulare pe Linux
 
-Este necesar un compilator C++ cu suport pentru standardul ales, de exemplu g++.
+Se folosește GCC/g++ cu libstdc++, deoarece sursa originală include antetul specific `<bits/stdc++.h>`.
 
 ```bash
 g++ -std=c++20 -Wall -Wextra -Wpedantic main.cpp -o flashcards
@@ -51,6 +51,6 @@ cmake --build build
 ./build/flashcards
 ```
 
-## Dezvoltare
+## Stadiul implementării
 
-Pornit de la implementarea mea inițială, codul a fost revizuit cu asistență AI pentru gestionarea intrărilor, numerotarea la ștergere și selecția aleatorie.
+`main.cpp` păstrează codul original al autorului. Proiectul este în dezvoltare; tratarea intrărilor invalide și numerotarea la ștergere necesită verificări suplimentare.
