@@ -1,96 +1,133 @@
-#include <functional>
-#include <iostream>
-#include <limits>
+#include <bits/stdc++.h>
 #include <map>
-#include <random>
-#include <string>
-#include <utility>
-#include <vector>
-
-class Flashcard {
+using namespace std;
+class Flashcard
+{
 public:
-    std::string question;
-    std::string answer;
-    Flashcard(std::string q, std::string a)
-        : question(std::move(q)), answer(std::move(a)) {}
+    string question;
+    string answer;
+
+    Flashcard(string q, string a)
+    {
+        question = q;
+        answer = a;
+    }
 };
 
-std::vector<Flashcard> colectie;
+vector<Flashcard> colectie;
 
-bool citesteNumar(int& valoare) {
-    if (!(std::cin >> valoare)) {
-        if (std::cin.eof()) return false;
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cout << "Introdu un numar valid!\n";
-        return false;
+void adaugaCard()
+{
+    string intrebare, raspuns;
+    cout << "Introduceti intrebarea " << endl;
+    cin.clear();
+    cin.ignore();
+
+    getline(cin, intrebare);
+
+    cout << "Introduceti raspunsul " << endl;
+    getline(cin, raspuns);
+
+    colectie.push_back(Flashcard(intrebare, raspuns));
+    cout << "Flashcard adaugat! " << endl;
+}
+
+void afisareFlashcarduri()
+{
+    if (colectie.empty())
+        cout << "Nu ai flashcarduri! " << endl;
+
+    else
+    {
+        for (int i = 0; i < colectie.size(); i++)
+
+            cout << "Q: " << colectie[i].question << "~~~~~~" << "A " << colectie[i].answer << endl;
     }
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    return true;
 }
 
-void adaugaCard() {
-    std::string intrebare, raspuns;
-    std::cout << "Introduceti intrebarea: " << std::flush;
-    if (!std::getline(std::cin, intrebare)) return;
-    std::cout << "Introduceti raspunsul: " << std::flush;
-    if (!std::getline(std::cin, raspuns)) return;
-    colectie.emplace_back(std::move(intrebare), std::move(raspuns));
-    std::cout << "Flashcard adaugat!\n";
-}
 
-void afisareFlashcarduri() {
-    if (colectie.empty()) { std::cout << "Nu ai flashcarduri!\n"; return; }
-    for (std::size_t i = 0; i < colectie.size(); ++i)
-        std::cout << i + 1 << ". Q: " << colectie[i].question
-                  << " | A: " << colectie[i].answer << '\n';
-}
+void AlegeRandom()
+{
+    if (colectie.empty())
+        cout << "Nu ai flashcarduri! " << endl;
+    else
+    {
+        int random_index = rand() % colectie.size();
+        cout << "Intrebare: " << colectie[random_index].question << endl;
 
-void alegeRandom() {
-    if (colectie.empty()) { std::cout << "Nu ai flashcarduri!\n"; return; }
-    static std::mt19937 generator(std::random_device{}());
-    std::uniform_int_distribution<std::size_t> distributie(0, colectie.size() - 1);
-    const auto& card = colectie[distributie(generator)];
-    std::cout << "Intrebare: " << card.question << '\n'
-              << "Afisezi raspunsul? Apasa Enter.\n" << std::flush;
-    std::string confirmare;
-    if (!std::getline(std::cin, confirmare)) return;
-    std::cout << "Raspuns: " << card.answer << '\n';
-}
+        cout << "Afisezi raspunsul? Apasa enter " << endl;
+        cin.ignore();
+        cin.get();
 
-void eliminaCard() {
-    if (colectie.empty()) { std::cout << "Nu ai flashcarduri!\n"; return; }
-    for (std::size_t i = 0; i < colectie.size(); ++i)
-        std::cout << i + 1 << ". " << colectie[i].question << '\n';
-    std::cout << "Alege numarul cardului de eliminat: " << std::flush;
-    int numar;
-    if (!citesteNumar(numar)) return;
-    if (numar < 1 || static_cast<std::size_t>(numar) > colectie.size()) {
-        std::cout << "Alege o varianta valida!\n";
-        return;
+        cout << "Raspuns: " << colectie[random_index].answer << endl;
     }
-    colectie.erase(colectie.begin() + numar - 1);
-    std::cout << "Flashcard sters!\n";
 }
 
-int main() {
-    std::ios_base::sync_with_stdio(false);
-    std::cin.tie(nullptr);
-    const std::map<int, std::function<void()>> meniu = {
-        {1, adaugaCard}, {2, afisareFlashcarduri}, {3, alegeRandom},
-        {4, eliminaCard}, {5, [] { std::cout << "La revedere!\n"; }}
-    };
-    while (true) {
-        std::cout << "\n1. Adauga flashcard\n2. Afiseaza toate\n3. Alege random\n"
-                     "4. Sterge un card\n5. Iesire\nAlege o optiune: " << std::flush;
-        int optiune;
-        if (!citesteNumar(optiune)) {
-            if (std::cin.eof()) break;
-            continue;
+void eliminaCard()
+{
+    if (colectie.empty())
+        cout << "Nu ai flashcarduri! " << endl;
+
+    else
+    {   
+        int nr_sters;
+        cout << "Alege ce card vrei sa elimini ";
+
+        for (int i = 0; i < colectie.size(); i++)
+            cout << i << '.' << colectie[i].question << endl;
+
+        cin >> nr_sters;
+
+        if (nr_sters <= 0 || nr_sters > colectie.size())
+            cout << "Alege o varianta valida! " << endl;
+
+        else
+        {
+            colectie.erase(colectie.begin() + nr_sters - 1);
         }
-        const auto actiune = meniu.find(optiune);
-        if (actiune == meniu.end()) std::cout << "Introdu o optiune valida!\n";
-        else actiune->second();
-        if (optiune == 5) break;
     }
+}
+
+void iesire()
+{
+    cout << "Hai noroc~~ ";
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL); 
+    srand(time(NULL));
+
+    map<int, function<void()>> meniu; // prin cheia de tip int accesez functiile de tip void
+
+    // umplem harta cu comenzi...fara() la functii
+    meniu[1] = adaugaCard;
+    meniu[2] = afisareFlashcarduri;
+    meniu[3] = AlegeRandom;
+    meniu[4] = eliminaCard;
+    meniu[5] = iesire;
+
+    int choice = -1;
+
+    while (choice != 5)
+    {
+        cout << "-------MENIU CU MAP-------" << endl;
+        cout << "1. Adauga flashcard" << endl;
+        cout << "2. Afiseaza toate" << endl;
+        cout << "3. Alege random" << endl;
+        cout << "4. Sterge un card" << endl;
+        cout << "5. Iesire" << endl;
+        cout << "Alege o optiune: ";
+        cin >> choice;
+
+        if (meniu.count(choice)) //.count() returnează 1 dacă există
+            meniu[choice]();
+
+        else
+            cout << "Introdu o optiune valida! " << endl;
+        
+
+    }
+    return 0;
 }
